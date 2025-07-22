@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Color Match Game</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .color-box {
+      width: 100px;
+      height: 100px;
+      margin: 20px auto;
+      border-radius: 10px;
+      background-color: #f00;
+    }
+    .options {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .color-btn {
+      width: 40px;
+      height: 40px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🌈 Color Match Game</h2>
+    <p>Click the button matching the box color!</p>
+    <p>Score: <span id="score">0</span></p>
+    <div class="color-box" id="box"></div>
+    <div class="options">
+      <button class="color-btn" style="background:red" onclick="playClick(); checkColor('red')"></button>
+      <button class="color-btn" style="background:green" onclick="playClick(); checkColor('green')"></button>
+      <button class="color-btn" style="background:blue" onclick="playClick(); checkColor('blue')"></button>
+    </div>
+    <p id="result"></p>
+    <button onclick="playClick(); restartGame()">🔁 Restart</button>
+    <a href="relief.html" class="back-btn" onclick="playClick()">⬅️ Back to Exercises</a>
+  </div>
+
+  <audio id="bgMusic" src="sounds/calm-music.mp3" autoplay loop></audio>
+  <audio id="clickSound" src="sounds/click.mp3"></audio>
+  <button id="muteToggle">🔊</button>
+  <script src="relief.js"></script>
+  <script>
+    const box = document.getElementById("box");
+    const result = document.getElementById("result");
+    const colors = ['red', 'green', 'blue'];
+    let currentColor = '', score = 0;
+
+    function playClick() {
+      const sound = document.getElementById("clickSound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    function randomColor() {
+      currentColor = colors[Math.floor(Math.random() * colors.length)];
+      box.style.backgroundColor = currentColor;
+    }
+
+    function checkColor(color) {
+      if (color === currentColor) {
+        score++;
+        result.textContent = "✅ Correct!";
+      } else {
+        score = Math.max(0, score - 1);
+        result.textContent = "❌ Try Again!";
+      }
+      document.getElementById("score").textContent = score;
+      randomColor();
+    }
+
+    function restartGame() {
+      score = 0;
+      result.textContent = "";
+      document.getElementById("score").textContent = score;
+      randomColor();
+    }
+
+    restartGame();
+  </script>
+</body>
+</html>

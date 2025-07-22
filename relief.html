@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calming Exercises</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🧘 Calm & Focus</h1>
+    <p>Choose an activity:</p>
+
+    <div class="exercise-buttons">
+      <button onclick="playClick(); showExercise('breathing')">🌬️ Breathing</button>
+      <button onclick="playClick(); showExercise('walking')">🚶 Walking</button>
+      <button onclick="playClick(); showExercise('meditation')">🎥 Meditation</button>
+      <button onclick="playClick(); showExercise('games')">🎮 Games</button>
+    </div>
+
+    <!-- 🌬️ Breathing -->
+    <div id="breathing" class="exercise-section">
+      <h2>🌬️ Breathing Exercise</h2>
+      <div id="breatheCircle" class="breathe-circle"></div>
+      <p>Breathe in... Hold... Breathe out...</p>
+    </div>
+
+    <!-- 🚶 Walking -->
+    <div id="walking" class="exercise-section" style="display:none;">
+      <h2>🚶 Walking Exercise</h2>
+      <p>March in place for 1 minute. Stay focused on movement.</p>
+      <div class="walk-circle"></div>
+      <p id="walkTimer">Time: 00:00</p>
+      <button onclick="playClick(); startWalking()">Start Walk</button>
+    </div>
+
+    <!-- 🎥 Meditation -->
+<div id="meditation" class="exercise-section" style="display:none;">
+  <h2>🎥 Meditation Videos</h2>
+  <p>Watch and relax your mind:</p>
+  <div class="video-wrapper" id="meditationWrapper">
+    <div class="video-box"><div id="player1"></div></div>
+    <div class="video-box"><div id="player2"></div></div>
+    <div class="video-box"><div id="player3"></div></div>
+    <div class="video-box"><div id="player4"></div></div>
+    <div class="video-box"><div id="player5"></div></div>
+  </div>
+</div>
+
+
+    <!-- 🎮 Games -->
+    <div id="games" class="exercise-section" style="display:none;">
+      <h2>🎮 Distraction Games</h2>
+      <p>Click to open a fun mini-game:</p>
+      <ul class="game-links">
+        <li><a href="game1.html" target="_blank" onclick="playClick()">🧠 Memory Flip Game</a></li>
+        <li><a href="game2.html" target="_blank" onclick="playClick()">🧩 Puzzle Slider Game</a></li>
+        <li><a href="game3.html" target="_blank" onclick="playClick()">🌈 Color Match Game</a></li>
+      </ul>
+    </div>
+
+    <a href="index.html" class="back-btn" onclick="playClick()">⬅️ Back to Tracker</a>
+  </div>
+
+  <!-- Audio -->
+  <audio id="bgMusic" src="sounds/calm-music.mp3" autoplay loop></audio>
+  <audio id="clickSound" src="sounds/click.mp3"></audio>
+  <button id="muteToggle">🔊</button>
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- Click sound -->
+  <script>
+    function playClick() {
+      const clickSound = document.getElementById("clickSound");
+      clickSound.currentTime = 0;
+      clickSound.play();
+    }
+  </script>
+
+  <!-- Main logic -->
+  <script src="relief.js"></script>
+</body>
+</html>

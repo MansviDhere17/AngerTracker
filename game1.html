@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Memory Flip Game</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 60px);
+      gap: 10px;
+      justify-content: center;
+      margin: 20px 0;
+    }
+    .card {
+      width: 60px;
+      height: 60px;
+      background: #444;
+      font-size: 24px;
+      color: transparent;
+      text-align: center;
+      line-height: 60px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    .card.flipped {
+      background: #77dd77;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🧠 Memory Flip Game</h2>
+    <p>Match all the emoji pairs!</p>
+    <p>Score: <span id="score">0</span></p>
+    <button onclick="playClick(); restartGame()">🔁 Restart Game</button>
+    <div class="game-grid" id="grid"></div>
+    <a href="relief.html" class="back-btn" onclick="playClick()">⬅️ Back to Exercises</a>
+  </div>
+
+  <audio id="bgMusic" src="sounds/calm-music.mp3" autoplay loop></audio>
+  <audio id="clickSound" src="sounds/click.mp3"></audio>
+  <button id="muteToggle">🔊</button>
+  <script src="relief.js"></script>
+  <script>
+    const grid = document.getElementById("grid");
+    const emojis = ['🍎','🍌','🍇','🍉','🍎','🍌','🍇','🍉'];
+    let flipped = [], lock = false, score = 0;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function playClick() {
+      const sound = document.getElementById("clickSound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    function createBoard() {
+      grid.innerHTML = "";
+      score = 0;
+      document.getElementById("score").textContent = score;
+      const shuffled = shuffle([...emojis]);
+      shuffled.forEach((emoji) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.dataset.emoji = emoji;
+        card.innerText = emoji;
+        card.addEventListener("click", () => flipCard(card));
+        grid.appendChild(card);
+      });
+    }
+
+    function flipCard(card) {
+      if (lock || card.classList.contains("flipped")) return;
+      card.classList.add("flipped");
+      flipped.push(card);
+      playClick();
+
+      if (flipped.length === 2) {
+        lock = true;
+        setTimeout(() => {
+          if (flipped[0].dataset.emoji === flipped[1].dataset.emoji) {
+            score += 1;
+            document.getElementById("score").textContent = score;
+          } else {
+            flipped[0].classList.remove("flipped");
+            flipped[1].classList.remove("flipped");
+          }
+          flipped = [];
+          lock = false;
+        }, 800);
+      }
+    }
+
+    function restartGame() {
+      createBoard();
+    }
+
+    createBoard();
+  </script>
+</body>
+</html>

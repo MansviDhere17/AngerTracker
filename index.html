@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Anger Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🔥 Personal Anger Tracker</h1>
+    <p>Rate your anger level:</p>
+  <div class="levels">
+      <button onclick="setLevel(1)">😌 1</button>
+      <button onclick="setLevel(2)">🙂 2</button>
+      <button onclick="setLevel(3)">😐 3</button>
+      <button onclick="setLevel(4)">😠 4</button>
+      <button onclick="setLevel(5)">😡 5</button>
+    </div>
+        
+
+    <textarea id="reason" placeholder="Why are you angry? Write it down..."></textarea>
+    <button class="save-btn" onclick="saveEntry()">Save Entry</button>
+    <p id="feedback"></p>
+
+    <a href="relief.html" class="relief-link">🧘 Try Calming Exercise</a>
+  </div>
+
+  <audio id="bgMusic" src="sounds/calm-music.mp3" autoplay loop></audio>
+  <audio id="clickSound" src="sounds/click.mp3"></audio>
+  <audio id="saveSound" src="sounds/save.mp3"></audio>
+  <button id="muteToggle">🔊</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

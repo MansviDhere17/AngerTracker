@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Puzzle Slider</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .puzzle-container {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      grid-template-rows: repeat(3, 80px);
+      gap: 5px;
+      margin: 20px auto;
+    }
+    .tile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #4d88ff;
+      color: white;
+      font-size: 24px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .tile.empty {
+      background: transparent;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🧩 Puzzle Slider</h2>
+    <p>Arrange the numbers in order!</p>
+    <p>Moves: <span id="score">0</span></p>
+    <button onclick="playClick(); restartGame()">🔁 Restart Game</button>
+    <div class="puzzle-container" id="puzzle"></div>
+    <a href="relief.html" class="back-btn" onclick="playClick()">⬅️ Back to Exercises</a>
+  </div>
+
+  <audio id="bgMusic" src="sounds/calm-music.mp3" autoplay loop></audio>
+  <audio id="clickSound" src="sounds/click.mp3"></audio>
+  <button id="muteToggle">🔊</button>
+  <script src="relief.js"></script>
+  <script>
+    const puzzle = document.getElementById("puzzle");
+    let tiles = [...Array(8).keys()].map(n => n + 1).concat(null);
+    let moves = 0;
+
+    function playClick() {
+      const sound = document.getElementById("clickSound");
+      sound.currentTime = 0;
+      sound.play();
+    }
+
+    function shuffle(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+
+    function render() {
+      puzzle.innerHTML = "";
+      tiles.forEach((num, i) => {
+        const div = document.createElement("div");
+        div.className = "tile" + (num === null ? " empty" : "");
+        div.textContent = num ?? "";
+        div.addEventListener("click", () => move(i));
+        puzzle.appendChild(div);
+      });
+    }
+
+    function move(i) {
+      const movesIndex = [i - 1, i + 1, i - 3, i + 3];
+      for (let m of movesIndex) {
+        if (tiles[m] === null && validMove(i, m)) {
+          [tiles[i], tiles[m]] = [tiles[m], tiles[i]];
+          moves++;
+          document.getElementById("score").textContent = moves;
+          render();
+          playClick();
+          break;
+        }
+      }
+    }
+
+    function validMove(i, m) {
+      if (m < 0 || m > 8) return false;
+      if (Math.abs(i - m) === 1 && Math.floor(i / 3) !== Math.floor(m / 3)) return false;
+      return true;
+    }
+
+    function restartGame() {
+      shuffle(tiles);
+      moves = 0;
+      document.getElementById("score").textContent = moves;
+      render();
+    }
+
+    shuffle(tiles);
+    render();
+  </script>
+</body>
+</html>
